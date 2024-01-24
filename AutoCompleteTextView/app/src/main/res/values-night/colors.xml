@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <color name="drop_down_background_color">#FFFFFF</color>
+    <color name="drop_down_text_color">#FF000000</color>
+
+    <color name="on_focus_drop_down">#FFEE58</color>
+    <color name="not_focus_drop_down">#FFFFFF</color>
+</resources>
