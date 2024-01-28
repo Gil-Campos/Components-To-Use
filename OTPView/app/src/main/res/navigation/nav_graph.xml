@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/otpCodeFragment">
+
+    <fragment
+        android:id="@+id/otpCodeFragment"
+        android:name="com.example.otpview.OtpCodeFragment"
+        android:label="fragment_otp_code"
+        tools:layout="@layout/fragment_otp_code" />
+</navigation>
