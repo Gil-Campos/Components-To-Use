@@ -2,6 +2,7 @@ package com.example.otpview
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.KeyEvent
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -21,9 +22,7 @@ import kotlinx.coroutines.launch
 
 class OtpCodeFragment : Fragment() {
 
-    companion object {
-        private const val TEST_VERIFY_CODE = "12345"
-    }
+    private var optExternalCode = "12345"
 
     private var _binding: FragmentOtpCodeBinding? = null
     private val binding get() = _binding!!
@@ -41,11 +40,15 @@ class OtpCodeFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setListener()
-        initFocus()
+        observeOtpCodeRequest()
+        observeUserAttempts()
 
-        setUpTimer()
+        viewModel.createOptCode()
     }
+
+    /**
+     * Code to set up view
+     */
 
     private fun formatTime(time: Long): String {
         val minutes = time / 60
@@ -56,16 +59,18 @@ class OtpCodeFragment : Fragment() {
     private fun setUpTimer() {
         viewModel.timeLeft.observe(viewLifecycleOwner) {
             binding.timerText.text = formatTime(it)
+
+            lockViewTimeExpired(it)
         }
 
-        viewModel.startTimer(120000)
+        viewModel.startTimer(30000)
     }
 
     private fun setListener() {
-        binding.frameLayoutRoot.setOnClickListener {
+        binding.constraintLayoutRoot.setOnClickListener {
             val inputManager =
                 activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(binding.frameLayoutRoot.windowToken, 0)
+            inputManager.hideSoftInputFromWindow(binding.constraintLayoutRoot.windowToken, 0)
         }
 
         setTextChangedListener(fromEditText = binding.etOne, targetEditText = binding.etTwo)
@@ -127,8 +132,6 @@ class OtpCodeFragment : Fragment() {
         itemBackgroundEmptyState(binding.etThree)
         itemBackgroundEmptyState(binding.etFour)
         itemBackgroundEmptyState(binding.etFive)
-
-        initFocus()
     }
 
     private fun setTextChangedListener(
@@ -185,13 +188,13 @@ class OtpCodeFragment : Fragment() {
             return
         }
 
-        if (otpCode == TEST_VERIFY_CODE) {
+        if (otpCode == optExternalCode) {
             Toast.makeText(binding.root.context, "Success, should do next", Toast.LENGTH_SHORT)
                 .show()
 
             val inputManager =
                 activity?.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            inputManager.hideSoftInputFromWindow(binding.frameLayoutRoot.windowToken, 0)
+            inputManager.hideSoftInputFromWindow(binding.constraintLayoutRoot.windowToken, 0)
 
             return
         }
@@ -202,12 +205,112 @@ class OtpCodeFragment : Fragment() {
         itemBackgroundErrorState(binding.etFour)
         itemBackgroundErrorState(binding.etFive)
 
+        viewModel.addUserCodeAttempt()
+
         Toast.makeText(binding.root.context, "Error, wrong code", Toast.LENGTH_SHORT).show()
 
-        CoroutineScope(Dispatchers.Main).launch {
-            delay(1000)
+        lockViewAttemptsExpired()
+    }
+
+    /**
+     *  Lock view when time expires
+     */
+
+    private fun lockViewTimeExpired(time: Long) {
+        if (time == 0L) {
+            binding.timerText.text = formatTime(0)
             reset()
+            binding.tvResendOtpCode.setTextColor(
+                ResourcesCompat.getColor(
+                    resources,
+                    R.color.new_otp_code_active,
+                    null
+                )
+            )
+            binding.tvResendOtpCode.isEnabled = true
         }
+    }
+
+    /**
+     * Start view for OTP code & lock view to request new OTP code
+     */
+
+    private fun startView() {
+        if (viewModel.userAttempts.value == 1) {
+            setListener()
+        }
+
+        initFocus()
+        setUpTimer()
+        listeners()
+
+
+        binding.tvResendOtpCode.setTextColor(
+            ResourcesCompat.getColor(
+                resources,
+                R.color.new_otp_code_inactive,
+                null
+            )
+        )
+        
+        binding.tvResendOtpCode.isEnabled = false
+    }
+
+    private fun lockViewAttemptsExpired() {
+        if (viewModel.userAttempts.value?.rem(4) != 0) {
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(1000)
+                reset()
+                initFocus()
+            }
+        } else {
+            CoroutineScope(Dispatchers.Main).launch {
+                delay(1000)
+                viewModel.stopTimer()
+                binding.timerText.text = formatTime(0)
+                reset()
+                binding.tvResendOtpCode.setTextColor(
+                    ResourcesCompat.getColor(
+                        resources,
+                        R.color.new_otp_code_active,
+                        null
+                    )
+                )
+                binding.tvResendOtpCode.isEnabled = true
+            }
+        }
+    }
+
+    private fun observeUserAttempts() {
+        viewModel.userAttempts.observe(viewLifecycleOwner) {
+            Log.d("USER_ATTEMPT", "Attempt: $it")
+        }
+    }
+
+    /**
+     * Code to observe new OTP code
+     */
+
+    private fun observeOtpCodeRequest() {
+        viewModel.optExternalCode.observe(viewLifecycleOwner) {
+            optExternalCode = it
+
+            startView()
+
+            Log.d("NEW_OTP_CODE", "Code: $it")
+        }
+    }
+
+    /**
+     * Listeners to trigger functions related to request of the new OTP code
+     */
+
+    private fun listeners() {
+        requestNewOtpCode()
+    }
+
+    private fun requestNewOtpCode() {
+        binding.tvResendOtpCode.setOnClickListener { viewModel.createOptCode() }
     }
 
     override fun onDestroyView() {

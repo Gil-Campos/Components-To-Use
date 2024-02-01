@@ -7,4 +7,7 @@
     <color name="not_focus_drop_down">#FF000000</color>
 
     <color name="focus_text_color">#EC407A</color>
+
+    <color name="new_otp_code_inactive">#373232</color>
+    <color name="new_otp_code_active">#42A5F5</color>
 </resources>

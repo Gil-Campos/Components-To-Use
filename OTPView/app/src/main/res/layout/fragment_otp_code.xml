@@ -1,111 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/frame_layout_root"
+    android:id="@+id/constraint_layout_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".OtpCodeFragment">
 
+    <FrameLayout
+        android:id="@+id/frame_layout_root"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/timer_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="80dp"
+            android:textSize="30sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/et_one"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_item_empty_background"
+                android:cursorVisible="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:imeOptions="actionNone"
+                android:inputType="numberDecimal"
+                android:maxLength="1"
+                android:maxLines="1"
+                android:textCursorDrawable="@null"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_two"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_item_empty_background"
+                android:cursorVisible="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:imeOptions="actionNone"
+                android:inputType="numberDecimal"
+                android:maxLength="1"
+                android:maxLines="1"
+                android:textCursorDrawable="@null"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_three"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_item_empty_background"
+                android:cursorVisible="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:imeOptions="actionNone"
+                android:inputType="numberDecimal"
+                android:maxLength="1"
+                android:maxLines="1"
+                android:textCursorDrawable="@null"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_four"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_item_empty_background"
+                android:cursorVisible="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:imeOptions="actionNone"
+                android:inputType="numberDecimal"
+                android:maxLength="1"
+                android:maxLines="1"
+                android:textCursorDrawable="@null"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/et_five"
+                android:layout_width="40dp"
+                android:layout_height="60dp"
+                android:layout_marginStart="10dp"
+                android:background="@drawable/otp_item_empty_background"
+                android:cursorVisible="false"
+                android:enabled="false"
+                android:gravity="center"
+                android:imeOptions="actionNone"
+                android:inputType="numberDecimal"
+                android:maxLength="1"
+                android:maxLines="1"
+                android:textCursorDrawable="@null"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+
+    </FrameLayout>
+
     <TextView
-        android:id="@+id/timer_text"
+        android:id="@+id/tv_resend_otp_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="30dp"
-        android:textSize="30sp" />
+        android:layout_marginTop="32dp"
+        android:text="Resend OTP code"
+        android:textColor="@color/new_otp_code_inactive"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/frame_layout_root" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:gravity="center"
-        android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_one"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/otp_item_empty_background"
-            android:cursorVisible="false"
-            android:enabled="false"
-            android:gravity="center"
-            android:imeOptions="actionNone"
-            android:inputType="numberDecimal"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:textCursorDrawable="@null"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_two"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/otp_item_empty_background"
-            android:cursorVisible="false"
-            android:enabled="false"
-            android:gravity="center"
-            android:imeOptions="actionNone"
-            android:inputType="numberDecimal"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:textCursorDrawable="@null"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_three"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/otp_item_empty_background"
-            android:cursorVisible="false"
-            android:enabled="false"
-            android:gravity="center"
-            android:imeOptions="actionNone"
-            android:inputType="numberDecimal"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:textCursorDrawable="@null"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_four"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/otp_item_empty_background"
-            android:cursorVisible="false"
-            android:enabled="false"
-            android:gravity="center"
-            android:imeOptions="actionNone"
-            android:inputType="numberDecimal"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:textCursorDrawable="@null"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-        <EditText
-            android:id="@+id/et_five"
-            android:layout_width="40dp"
-            android:layout_height="60dp"
-            android:layout_marginStart="10dp"
-            android:background="@drawable/otp_item_empty_background"
-            android:cursorVisible="false"
-            android:enabled="false"
-            android:gravity="center"
-            android:imeOptions="actionNone"
-            android:inputType="numberDecimal"
-            android:maxLength="1"
-            android:maxLines="1"
-            android:textCursorDrawable="@null"
-            android:textSize="25sp"
-            android:textStyle="bold" />
-
-    </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
